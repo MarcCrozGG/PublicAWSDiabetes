@@ -9,7 +9,7 @@ document.getElementById('health-form').addEventListener('submit', function(e) {
     });
     
     // Enviar datos al servidor
-    fetch('https://kludndazg8.execute-api.us-east-2.amazonaws.com/prod', { // URL de tu API Gateway
+    fetch('https://5zkno94cj7.execute-api.us-east-2.amazonaws.com/prod', { // URL de tu API Gateway
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
