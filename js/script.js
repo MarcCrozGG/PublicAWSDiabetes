@@ -1,4 +1,6 @@
-let formulario = document.getElementById('health-form').addEventListener('submit', function(e) {
+import { API } from 'aws-amplify';
+
+document.getElementById('health-form').addEventListener('submit', function(e) {
     e.preventDefault(); // Prevenir el comportamiento de envío predeterminado
 
     // Recopilar datos del formulario
@@ -8,53 +10,39 @@ let formulario = document.getElementById('health-form').addEventListener('submit
         data[key] = value;
     });
 
-    // Enviar datos al servidor
-    fetch('https://kludndazg8.execute-api.us-east-2.amazonaws.com/prod', { // Reemplaza con tu URL de API Gateway
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(data)
+    // Enviar datos al servidor usando AWS Amplify
+    API.post('API', '/prod', { // Asegúrate de que 'API' y '/prod' coincidan con tu configuración de Amplify
+        body: data
     })
     .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok: ' + response.statusText);
-        }
-        return response.json(); // Convertir respuesta a formato JSON
-    })
-    .then(data => {
-        // Mostrar los datos en el modal
-        let outputDiv = document.getElementById('output');
-        outputDiv.innerHTML = '';
-        if (Array.isArray(data)) {
-            data.forEach(row => {
-                outputDiv.innerHTML += `<pre>${JSON.stringify(row, null, 2)}</pre>`;
-            });
-        } else {
-            outputDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
-        }
-
-        // Mostrar el modal
-        let modal = document.getElementById("myModal");
-        modal.style.display = "block";
+        mostrarResultados(response);
     })
     .catch(error => {
-        console.error('There has been a problem with your fetch operation:', error);
+        console.error('Error al procesar la solicitud:', error);
         alert('Error al procesar la solicitud: ' + error.message); // Mostrar error al usuario
     });
+});
 
-    // Cerrar el modal
-    let closeButton = document.querySelector(".close");
-    closeButton.onclick = function() {
-        let modal = document.getElementById("myModal");
+function mostrarResultados(data) {
+    let outputDiv = document.getElementById('output');
+    outputDiv.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+
+    // Mostrar el modal
+    let modal = document.getElementById("myModal");
+    modal.style.display = "block";
+}
+
+// Código para manejar el cierre del modal
+let closeButton = document.querySelector(".close");
+closeButton.onclick = function() {
+    let modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}
+
+// Cerrar el modal al hacer clic fuera del contenido
+window.onclick = function(event) {
+    let modal = document.getElementById("myModal");
+    if (event.target == modal) {
         modal.style.display = "none";
     }
-
-    // Cerrar el modal al hacer clic fuera del contenido
-    window.onclick = function(event) {
-        let modal = document.getElementById("myModal");
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-});
+}
