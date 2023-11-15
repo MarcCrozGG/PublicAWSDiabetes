@@ -12,7 +12,8 @@ document.getElementById('health-form').addEventListener('submit', function(e) {
     fetch('https://kludndazg8.execute-api.us-east-2.amazonaws.com/prod', { // URL de tu API Gateway
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            // Agrega aquí cualquier otro header que tu API requiera
         },
         body: JSON.stringify(data)  // Convertir datos a formato JSON
     })
