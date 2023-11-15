@@ -9,7 +9,7 @@ document.getElementById('health-form').addEventListener('submit', function(e) {
     });
     
     // Enviar datos al servidor
-    fetch('https://5zkno94cj7.execute-api.us-east-2.amazonaws.com/prod', { // URL de tu API Gateway
+    fetch('https://5zkno94cj7.execute-api.us-east-2.amazonaws.com/test', { // URL de tu API Gateway
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -29,6 +29,7 @@ document.getElementById('health-form').addEventListener('submit', function(e) {
     })
     .catch(error => {
         console.error('There has been a problem with your fetch operation:', error);
+        alert('Error al procesar la solicitud: ' + error.message); // Mostrar error al usuario
     });
 });
 
