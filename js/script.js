@@ -9,7 +9,7 @@ let formulario = document.getElementById('health-form').addEventListener('submit
     });
 
     // Enviar datos al servidor
-    fetch('https://tu-api-gateway-url/submit', { // Reemplaza con tu URL de API Gateway
+    fetch('https://kludndazg8.execute-api.us-east-2.amazonaws.com/prod', { // Reemplaza con tu URL de API Gateway
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
